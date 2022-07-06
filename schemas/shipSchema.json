@@ -7,10 +7,17 @@
     "properties": {
       "productId": {
         "type": "integer",
-        "minimum": 1000},
-      "name": {"type": "string"},
-      "addr": {"type": "string"},
-      "zipcode": {"type": "string"}
+        "minimum": 1000
+      },
+      "name": {
+        "type": "string"
+      },
+      "addr": {
+        "type": "string"
+      },
+      "zipcode": {
+        "type": "string"
+      }
     },
     "additionalProperties": false,
     "required": [

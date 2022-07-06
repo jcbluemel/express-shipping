@@ -2,26 +2,9 @@
 
 const shipItApi = require("../shipItApi");
 shipItApi.shipProduct = jest.fn();
-shipItApi.shipProduct.mockReturnValue(5555);
 
 const request = require("supertest");
 const app = require("../app");
-const AxiosMockAdapter = require("axios-mock-adapter");
-const axios = require("axios");
-const axiosMock = new AxiosMockAdapter(axios);
-
-// const { shipProduct, SHIPIT_SHIP_URL, SHIPIT_API_KEY } = require("./shipItApi");
-
-
-
-// axiosMock.onPost(`${SHIPIT_SHIP_URL}`, {
-//   itemId: 2000,
-//   name: "test",
-//   addr: "11 test address",
-//   zip: "55555",
-//   key: SHIPIT_API_KEY
-// }).reply(201, 5000);
-
 
 
 /** Tests adding a shipment
@@ -33,6 +16,8 @@ const axiosMock = new AxiosMockAdapter(axios);
 
 describe("POST /", function () {
   test("valid", async function () {
+    shipItApi.shipProduct.mockReturnValue(5555);
+
     const resp = await request(app).post("/shipments").send({
       productId: 1000,
       name: "Test Tester",
@@ -43,14 +28,17 @@ describe("POST /", function () {
     expect(resp.body).toEqual({ shipped: 5555 });
   });
 
-  test("invalid", async function () {
+  test("invalid productId", async function () {
     const resp = await request(app).post("/shipments").send({
       productId: 1,
       name: "Test Tester",
-      addr: "100 Test St",
       zipcode: "12345-6789",
     });
     //TODO: strengthen expectations for invalid test.
-    expect(resp.body.error.status).toEqual(400);
+    expect(resp.statusCode).toEqual(400);
+    expect(resp.body.error.message).toEqual([
+      "instance.productId must be greater than or equal to 1000",
+      "instance requires property \"addr\"",
+    ]);
   });
 });

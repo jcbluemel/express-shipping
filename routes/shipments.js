@@ -20,7 +20,7 @@ router.post("/", async function (req, res, next) {
     req.body, shipSchema, { required: true });
 
   if (!validator.valid) {
-    const errs = result.errors.map(err => err.stack);
+    const errs = validator.errors.map(err => err.stack);
     throw new BadRequestError(errs);
   }
 
