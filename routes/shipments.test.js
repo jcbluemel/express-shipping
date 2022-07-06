@@ -29,7 +29,7 @@ describe("POST /", function () {
       addr: "100 Test St",
       zipcode: "12345-6789",
     });
-
+    //TODO: strengthen expectations for invalid test. 
     expect(resp.body.error.status).toEqual(400);
   });
 });
