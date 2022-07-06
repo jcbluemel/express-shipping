@@ -5,20 +5,21 @@ const router = new express.Router();
 const jsonschema = require("jsonschema");
 const shipSchema = require("../schemas/shipSchema.json");
 const { shipProduct } = require("../shipItApi");
-const { BadRequestError } = require("../expressError")
+const { BadRequestError } = require("../expressError");
 
-/** POST /
+/** POST /ship
  *
- * VShips an order coming from json body:
+ * Validates and ships an order coming from json body:
  *   { productId, name, addr, zip }
  *
  * Returns { shipped: shipId }
  */
 
 router.post("/", async function (req, res, next) {
-  const result = jsonschema.validate(req.body, shipSchema, {required: true});
+  const validator = jsonschema.validate(
+    req.body, shipSchema, { required: true });
 
-  if(!result.valid){
+  if (!validator.valid) {
     const errs = result.errors.map(err => err.stack);
     throw new BadRequestError(errs);
   }

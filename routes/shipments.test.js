@@ -1,4 +1,5 @@
 "use strict";
+
 const shipItApi = require("../shipItApi");
 shipItApi.shipProduct = jest.fn();
 shipItApi.shipProduct.mockReturnValue(5555);
